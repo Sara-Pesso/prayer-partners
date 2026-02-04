@@ -20,7 +20,3 @@ def random_prayer_partners(partners_list):
 
 
 random_pairs = random_prayer_partners(names)
-print("Random Partner Pairs:")
-for i, pair in enumerate(random_pairs, 1):
-    print(f"Pair {i}: {pair}")
-    
