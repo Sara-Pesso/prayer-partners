@@ -1,11 +1,12 @@
 import pandas as pd
 
-file = "E:\prayer-partners\directory.xlsx"
-df = pd.read_excel(file)
-df['full_name'] = df['Last name']+"-"+df["First name"]
+def get_directory(file_name):
+    df = pd.read_excel(file_name)
+    df['full_name'] = df['Last name']+"-"+df["First name"]
 
-#List of names
-names = df["full_name"].tolist()
+    #List of names
+    names = df["full_name"].tolist()
 
-#Convert to dictionary
-name_to_email = df.set_index("full_name").T.to_dict('list')
+    #Convert to dictionary
+    name_to_email = df.set_index("full_name").T.to_dict('list')
+    return names, name_to_email

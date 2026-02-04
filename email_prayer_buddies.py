@@ -9,7 +9,8 @@ from datetime import date
 sender_email = "pessognellisa20@gmail.com"
 password = "axyf rity yzjb hcdo" # Use an App Password, not your actual password
 
-def weekly_prayer_buddies():
+def weekly_prayer_buddies(file):
+    random_pairs, names, name_to_email= random_prayer_partners(file)
     for i, pair in enumerate(random_pairs, 1):
         # Create the email message string
         if len(pair) > 2:
@@ -41,4 +42,4 @@ def weekly_prayer_buddies():
             except smtplib.SMTPException as e:
                 print(f"Error: {e}")
 
-weekly_prayer_buddies()
+weekly_prayer_buddies(file = "E:\prayer-partners\directory.xlsx")
