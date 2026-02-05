@@ -44,7 +44,9 @@ def weekly_prayer_buddies(file):
                 print(f"Error: {e}")
 
 
-if __name__ == "__main__": 
-    if len(sys.argv)>1:
-        file = sys.argv[1]
-    weekly_prayer_buddies(file) #= "E:\prayer-partners\directory.xlsx"
+# if __name__ == "__main__": 
+#     if len(sys.argv)>1:
+#         file = sys.argv[1]
+#     weekly_prayer_buddies(file) #= "E:\prayer-partners\directory.xlsx"
+
+weekly_prayer_buddies("E:\prayer-partners\directory.xlsx")
