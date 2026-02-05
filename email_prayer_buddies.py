@@ -4,6 +4,7 @@ import smtplib
 import ssl
 from email.message import EmailMessage
 from datetime import date
+import sys
 
 # Define email sender and receiver
 sender_email = "pessognellisa20@gmail.com"
@@ -42,4 +43,8 @@ def weekly_prayer_buddies(file):
             except smtplib.SMTPException as e:
                 print(f"Error: {e}")
 
-weekly_prayer_buddies(file = "E:\prayer-partners\directory.xlsx")
+
+if __name__ == "__main__": 
+    if len(sys.argv)>1:
+        file = sys.argv[1]
+    weekly_prayer_buddies(file) #= "E:\prayer-partners\directory.xlsx"

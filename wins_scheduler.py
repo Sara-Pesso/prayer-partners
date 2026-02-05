@@ -1,7 +1,8 @@
 import datetime
 import win32com.client
+import sys
 
-def create_scheduled_task(task_name, run_time):
+def create_scheduled_task(task_name, run_time, exe, arg):
     # Connect to the Task Scheduler service
     scheduler = win32com.client.Dispatch('Schedule.Service')
     scheduler.Connect()
@@ -24,8 +25,8 @@ def create_scheduled_task(task_name, run_time):
     # For an executable action, use type 0 (TASK_ACTION_EXEC)
     ACTION_TYPE_EXEC = 0
     action = task_def.Actions.Create(ACTION_TYPE_EXEC)
-    action.Path = "E:\prayer-partners\dist\email_prayer_buddies.exe" # Full path to your executable
-    # action.Arguments = f'"{script_path}"' # Path to the script you want to run
+    action.Path = exe  # Full path to your executable
+    action.Arguments = arg  # Path to the script you want to run
 
     # --- Set up Task Settings and Registration Info ---
     task_def.RegistrationInfo.Description = 'Prayer Buddy Random Emailer'
@@ -51,7 +52,11 @@ def create_scheduled_task(task_name, run_time):
 
 if __name__ == "__main__":
     task_name = "PrayerBuddyEmailer"
-    # script_to_run = r"E:\prayer-partners\email_prayer_buddies.py"
+    
+    if len(sys.argv)>1:
+        exe_path = sys.argv[1] #= "E:\prayer-partners\dist\email_prayer_buddies.exe"
+        arg_path = sys.argv[2] #"E:\prayer-partners\directory.xlsx"
     run_at = datetime.datetime.now() + datetime.timedelta(minutes=1)
-
-    create_scheduled_task(task_name, run_at)
+     
+    
+    create_scheduled_task(task_name, run_at, exe_path, arg_path)
