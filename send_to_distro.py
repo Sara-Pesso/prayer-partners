@@ -2,8 +2,11 @@ import imaplib
 import email
 from email.header import decode_header
 from bs4 import BeautifulSoup
-from datetime import datetime
-import win32com.client
+from datetime import date, datetime
+from directory import *
+import smtplib
+import ssl
+from email.message import EmailMessage
 
 # Email account details
 USERNAME = "pessognellisa20@gmail.com"
@@ -73,3 +76,33 @@ def search_emails(username, password, imap_server, search_string):
 # Run the search
 found_emails = search_emails(USERNAME, PASSWORD, IMAP_SERVER, SEARCH_STRING)
 print(found_emails)
+
+#send to email_distro
+names, name_to_email, email_distro = get_directory("E:\prayer-partners\directory.xlsx")
+
+# Resend out the message; this way there is anonymity if the requester desires
+for request in found_emails:
+    for email_address in email_distro:
+        # Create the EmailMessage object
+        msg = EmailMessage()
+        msg.set_content(request['Body'])
+        msg['Subject'] = "Prayer Request: " + date.today().strftime("%Y-%m-%d")+ " " + request['Subject']
+        msg['From'] = USERNAME
+        msg['To'] = email_address #receiver email
+
+        # Define the SMTP server and port (for Gmail with implicit TLS/SSL)
+        smtp_server = "smtp.gmail.com"
+        port = 465  # For SSL
+
+        # Create a secure SSL context
+        context = ssl.create_default_context()
+
+        # Try to log in to the server and send the email
+        try:
+            with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+                server.login(USERNAME, PASSWORD)
+                server.send_message(msg)
+            print("Email sent successfully!")
+        except smtplib.SMTPException as e:
+            print(f"Error: {e}")
+
