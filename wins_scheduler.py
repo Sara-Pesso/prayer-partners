@@ -60,3 +60,5 @@ if __name__ == "__main__":
      
     
     create_scheduled_task(task_name, run_at, exe_path, arg_path)
+
+# to run: .\dist\wins_scheduler.exe "E:\prayer-partners\dist\email_prayer_buddies.exe" "E:\prayer-partners\directory.xlsx"

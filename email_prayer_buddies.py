@@ -8,7 +8,7 @@ import sys
 
 # Define email sender and receiver
 sender_email = "pessognellisa20@gmail.com"
-password = "axyf rity yzjb hcdo" # Use an App Password, not your actual password
+password = "axyf rity yzjb hcdo" # Use an App Password
 
 def weekly_prayer_buddies(file):
     random_pairs, names, name_to_email= random_prayer_partners(file)

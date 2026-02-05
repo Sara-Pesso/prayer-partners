@@ -5,7 +5,7 @@ import random
 from directory import *
 
 def random_prayer_partners(file):
-    names, name_to_email = get_directory(file)
+    names, email_distro, name_to_email = get_directory(file)
     # Make a copy to avoid modifying the original list in-place
     shuffled_list = names[:] 
     random.shuffle(shuffled_list)

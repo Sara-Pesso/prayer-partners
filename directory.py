@@ -7,6 +7,13 @@ def get_directory(file_name):
     #List of names
     names = df["full_name"].tolist()
 
+    #Email distro list
+    email_distro = df["Email"].tolist()
+
     #Convert to dictionary
     name_to_email = df.set_index("full_name").T.to_dict('list')
-    return names, name_to_email
+
+    return names, name_to_email, email_distro
+
+# names, name_to_email, email_distro = get_directory("E:\prayer-partners\directory.xlsx")
+# print(email_distro)
