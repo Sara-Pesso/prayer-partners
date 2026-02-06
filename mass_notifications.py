@@ -13,11 +13,6 @@ USERNAME = "pessognellisa20@gmail.com"
 PASSWORD = "axyf rity yzjb hcdo" # Use an App Password
 IMAP_SERVER = "imap.gmail.com"
 
-# The string to search for and the time to search for 
-SEARCH_STRING = "#prayer-request"
-TARGET_DATETIME = datetime(2025, 1, 15, 10, 30, 0)
-FILTER_TIME_STR = TARGET_DATETIME.strftime('%Y-%m-%d %H:%M')
-
 def search_emails(username, password, imap_server, search_string):
     try:
         # Connect to the IMAP server
@@ -74,6 +69,10 @@ def search_emails(username, password, imap_server, search_string):
         return []
 
 # Run the search
+# The string to search for and the time to search for 
+SEARCH_STRING = "#prayer-request"
+TARGET_DATETIME = datetime(2025, 1, 15, 10, 30, 0)
+FILTER_TIME_STR = TARGET_DATETIME.strftime('%Y-%m-%d %H:%M')
 found_emails = search_emails(USERNAME, PASSWORD, IMAP_SERVER, SEARCH_STRING)
 print(found_emails)
 
@@ -81,6 +80,10 @@ print(found_emails)
 names, name_to_email, email_distro = get_directory("E:\prayer-partners\directory.xlsx")
 
 # Resend out the message; this way there is anonymity if the requester desires
+def send_email_to_distro():
+
+    return
+
 for request in found_emails:
     for email_address in email_distro:
         # Create the EmailMessage object

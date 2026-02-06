@@ -1,5 +1,5 @@
 from directory import *
-from emailer import *
+from email_distro import *
 from datetime import datetime, timedelta, date
 from wins_scheduler import create_scheduled_task, delete_scheduled_task
 
