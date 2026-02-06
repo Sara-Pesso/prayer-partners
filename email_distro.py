@@ -1,6 +1,7 @@
 import smtplib
 import ssl
 from email.message import EmailMessage
+from directory import *
 
 def compose_email(message_subject, message_content, username, password, recipient_email):
     # Create the EmailMessage object
@@ -26,15 +27,14 @@ def compose_email(message_subject, message_content, username, password, recipien
     except smtplib.SMTPException as e:
         print(f"Error: {e}")
 
-
-# Email account details
-from directory import *
-USERNAME = "pessognellisa20@gmail.com"
-PASSWORD = "axyf rity yzjb hcdo" # Use an App Password
-def email_composer(message_content, message_subject, username, password, distro_xlsx):
+def send_mass_email(message_subject, message_content, username, password, distro_xlsx):
     names, name_to_email, email_distro = get_directory(distro_xlsx) #"E:\prayer-partners\directory.xlsx"
     for email_address in email_distro:
         compose_email(message_subject, message_content, username, password, email_address)
 
-if __name__ == "__main__":
-    email_composer(message_content="TEST EMAIL", message_subject="TEST EMAIL", username=USERNAME, password=PASSWORD, distro_xlsx="E:\prayer-partners\directory.xlsx")
+# ## TEST!
+# # Email account details
+# USERNAME = "pessognellisa20@gmail.com"
+# PASSWORD = "axyf rity yzjb hcdo" # Use an App Password
+# if __name__ == "__main__":
+#     email_distro( message_subject="TEST EMAIL",message_content="TEST EMAIL", username=USERNAME, password=PASSWORD, distro_xlsx="E:\prayer-partners\directory.xlsx")

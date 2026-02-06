@@ -2,18 +2,16 @@ import imaplib
 import email
 from email.header import decode_header
 from bs4 import BeautifulSoup
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 from directory import *
 import smtplib
 import ssl
 from email.message import EmailMessage
+from email_distro import *
+from imap_tools import MailBox
 
-# Email account details
-USERNAME = "pessognellisa20@gmail.com"
-PASSWORD = "axyf rity yzjb hcdo" # Use an App Password
-IMAP_SERVER = "imap.gmail.com"
-
-def search_emails(username, password, imap_server, search_string):
+def search_email_for_prayer_requests(username, password, imap_server, search_string):
+    uids = []
     try:
         # Connect to the IMAP server
         mail = imaplib.IMAP4_SSL(imap_server)
@@ -21,9 +19,10 @@ def search_emails(username, password, imap_server, search_string):
         
         # Select the inbox
         mail.select("inbox")
-    
-        status, messages = mail.search(None, f'(BODY "{search_string}")')
-        
+
+        SEARCH_QUERY = f'(BODY "{search_string}")'
+        status, messages = mail.search(None, SEARCH_QUERY)
+        # status, messages = mail.search(None, '#prayer-request', f'newer_than:60m {search_string}')
         email_ids = messages[0].split()
 
         print(f"Found {len(email_ids)} emails in inbox. Filtering for '{search_string}'...")
@@ -33,6 +32,7 @@ def search_emails(username, password, imap_server, search_string):
         for email_id in email_ids:
             # Fetch the email data (RFC822 is the full message)
             status, msg_data = mail.fetch(email_id, "(RFC822)")
+            
             for response_part in msg_data:
                 if isinstance(response_part, tuple):
                     msg = email.message_from_bytes(response_part[1])
@@ -60,52 +60,49 @@ def search_emails(username, password, imap_server, search_string):
                     # Check if the search string is in the subject or body
                     if search_string.lower() in subject.lower() or search_string.lower() in body.lower():
                         emails_with_string.append({"Subject": subject, "From": msg.get("From"), "Date": msg.get("Date"), "Body": body})
-                        
+
+                    # Move email to folder, out of inbox
+                    result, data = mail.fetch(email_id, '(UID BODY[HEADER.FIELDS (SUBJECT)])')
+                    uid = data[0][0].decode().split()[2] 
+                    uids.append(uid)
+                    
+
         mail.logout()
+
+        # Move email to folder, out of inbox
+        remove_prayer_request(username, password, imap_server, uids)
+
         return emails_with_string
 
     except Exception as e:
         print(f"An error occurred: {e}")
         return []
 
-# Run the search
-# The string to search for and the time to search for 
-SEARCH_STRING = "#prayer-request"
-TARGET_DATETIME = datetime(2025, 1, 15, 10, 30, 0)
-FILTER_TIME_STR = TARGET_DATETIME.strftime('%Y-%m-%d %H:%M')
-found_emails = search_emails(USERNAME, PASSWORD, IMAP_SERVER, SEARCH_STRING)
-print(found_emails)
+def remove_prayer_request(username, password, imap_server, uids):
+    with MailBox(imap_server).login(username, password) as mailbox:
+        for uid in uids:
+            # MOVE all messages from current folder to folder2, *in bulk (implicit creation of uid list)
+            mailbox.move(uid, 'Prayer Requests')
 
-#send to email_distro
-names, name_to_email, email_distro = get_directory("E:\prayer-partners\directory.xlsx")
-
-# Resend out the message; this way there is anonymity if the requester desires
-def send_email_to_distro():
-
+            # DELETE all messages from current folder, *in bulk (explicit creation of uid list)
+            mailbox.delete(uid)
     return
 
-for request in found_emails:
-    for email_address in email_distro:
-        # Create the EmailMessage object
-        msg = EmailMessage()
-        msg.set_content(request['Body'])
-        msg['Subject'] = "Prayer Request: " + date.today().strftime("%Y-%m-%d")+ " " + request['Subject']
-        msg['From'] = USERNAME
-        msg['To'] = email_address #receiver email
+def check_for_prayer_requests():
+    # Email account details
+    USERNAME = "pessognellisa20@gmail.com"
+    PASSWORD = "axyf rity yzjb hcdo" # Use an App Password
+    IMAP_SERVER = "imap.gmail.com"
+    DIRECTORY = "E:\prayer-partners\directory.xlsx"
 
-        # Define the SMTP server and port (for Gmail with implicit TLS/SSL)
-        smtp_server = "smtp.gmail.com"
-        port = 465  # For SSL
+    # Run the search
+    # The string to search for and the time to search for 
+    SEARCH_STRING = "#prayer-request"
 
-        # Create a secure SSL context
-        context = ssl.create_default_context()
+    found_emails = search_email_for_prayer_requests(USERNAME, PASSWORD, IMAP_SERVER, SEARCH_STRING)
+    for request in found_emails:
+        MESSAGE_SUBJECT = "Prayer Request: " + date.today().strftime("%Y-%m-%d")+ " " + request['Subject']
+        MESSAGE_CONTENT = request['Body']
+        send_mass_email(MESSAGE_SUBJECT, MESSAGE_CONTENT, USERNAME, PASSWORD, DIRECTORY)
 
-        # Try to log in to the server and send the email
-        try:
-            with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-                server.login(USERNAME, PASSWORD)
-                server.send_message(msg)
-            print("Email sent successfully!")
-        except smtplib.SMTPException as e:
-            print(f"Error: {e}")
-
+check_for_prayer_requests()

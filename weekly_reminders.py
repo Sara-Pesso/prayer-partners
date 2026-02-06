@@ -17,7 +17,7 @@ def schedule_weekly_reminder(task_name, exe, arg, description, TR, dayofweek):
     
     datetime_send_first_reminder = today + timedelta(days=days_until_first_reminder)
 
-    create_scheduled_task(task_name, datetime_send_first_reminder, exe, arg, description, TR, weekday=dayofweek)
+    create_scheduled_task(task_name, datetime_send_first_reminder, exe, arg, description, TR, weekday=dayofweek, interval_str=None)
 
 
 # Create Weekly/etc. Reminders 

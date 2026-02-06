@@ -3,7 +3,7 @@ import win32com.client
 from pathlib import Path
 import sys
 
-def create_scheduled_task(task_name, run_time, exe, arg, description, TR, weekday=None):
+def create_scheduled_task(task_name, run_time, exe, arg, description, TR, weekday=None, interval_str=None):
     # Connect to the Task Scheduler service
     scheduler = win32com.client.Dispatch('Schedule.Service')
     scheduler.Connect()
@@ -32,6 +32,12 @@ def create_scheduled_task(task_name, run_time, exe, arg, description, TR, weekda
     trigger.StartBoundary = run_time.isoformat()
 
     match TR:
+        case 2: #DAILY, on schedule
+            interval_dict = {"hour": "PT1H"}
+            trigger.Repetition.Interval = interval_dict[interval_str]
+            # Set the duration to run indefinitely ("P100Y" for 100 years, effectively indefinite)
+            # trigger.Repetition.Duration = "P100Y" 
+
         case 3: # WEEKLY
             daysofweek_bitmask = {"Sunday":1,
                                   "Monday":2,
@@ -100,16 +106,3 @@ def delete_scheduled_task(task_name):
 
 # delete_scheduled_task("PrayerBuddyEmailer")
 
-if __name__ == "__main__":
-    task_name = "PrayerBuddyEmailer"
-    
-    if len(sys.argv)>1:
-        exe_path = sys.argv[1] #= "E:\prayer-partners\dist\email_prayer_buddies.exe"
-        arg_path = sys.argv[2] #"E:\prayer-partners\directory.xlsx"
-    run_at = datetime.datetime.now() + datetime.timedelta(minutes=1)
-     
-    
-    # create_scheduled_task(task_name, run_at, exe_path, arg_path)
-    create_scheduled_task(task_name, run_at, exe_path, arg_path, 'Prayer Buddy Random Emailer', 3, weekday="Sunday")
-
-# C:/Users/Sara/AppData/Local/Programs/Python/Python311/python.exe e:/prayer-partners/wins_scheduler.py "E:\prayer-partners\dist\email_prayer_buddies.exe" "E:\prayer-partners\directory.xlsx"
