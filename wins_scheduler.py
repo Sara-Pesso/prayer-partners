@@ -1,5 +1,6 @@
 import datetime
 import win32com.client
+from pathlib import Path
 import sys
 
 def create_scheduled_task(task_name, run_time, exe, arg, description, TR, weekday=None):
@@ -66,6 +67,38 @@ def create_scheduled_task(task_name, run_time, exe, arg, description, TR, weekda
     )
 
     print(f"Task '{task_name}' created successfully.")
+
+    ## Add task name to txt list, so it can be located and deleted later if desired
+    created_task_list = Path("./created_task_list.txt")
+    if not created_task_list.exists():
+        with open(created_task_list, 'w') as file:
+            file.write(task_name + "\n")
+
+    else:
+        with open(created_task_list, "a") as file:
+            file.write(task_name + "\n")
+
+def delete_scheduled_task(task_name):
+    try:
+        # Connect to the Task Scheduler service
+        scheduler = win32com.client.Dispatch('Schedule.Service')
+        scheduler.Connect()
+        
+        # Get the specified task folder
+        root_folder = scheduler.GetFolder('\\')
+        
+        # Delete the task
+        # The second argument (0 in this case) represents flags; 
+        # 0 means no flags are used for this operation.
+        root_folder.DeleteTask(task_name, 0)
+        
+        print(f"Task '{task_name}' successfully deleted.")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        print(f"Could not delete task '{task_name}'. Ensure the task name and folder path are correct and you have sufficient permissions.")
+
+# delete_scheduled_task("PrayerBuddyEmailer")
 
 if __name__ == "__main__":
     task_name = "PrayerBuddyEmailer"
