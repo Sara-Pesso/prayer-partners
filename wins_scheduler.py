@@ -33,7 +33,8 @@ def create_scheduled_task(task_name, run_time, exe, arg, description, TR, weekda
 
     match TR:
         case 2: #DAILY, on schedule
-            interval_dict = {"hour": "PT1H"}
+            interval_dict = {"hour": "PT1H",
+                             "day": "P1D"}
             trigger.Repetition.Interval = interval_dict[interval_str]
             # Set the duration to run indefinitely ("P100Y" for 100 years, effectively indefinite)
             # trigger.Repetition.Duration = "P100Y" 
