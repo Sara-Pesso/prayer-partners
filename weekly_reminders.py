@@ -1,5 +1,8 @@
 from mass_notifications import *
 import json
+import re
+import os
+os.chdir(r"E:\prayer-partners")
 
 def check_for_weekly_reminders():
     # Email account details
@@ -12,25 +15,50 @@ def check_for_weekly_reminders():
     # The string to search for and the time to search for 
     SEARCH_STRING = "#weekly-reminder"
     NEW_MAILBOX =  'Weekly Reminders'
+    
+    day_hashtags = [        
+        "#Monday",
+        "#Tuesday",
+        "#Wednesday",
+        "#Thursday",
+        "#Friday",
+        "#Saturday",
+        "#Sunday"
+        ]
 
     found_emails = search_email_for_prayer_requests(USERNAME, PASSWORD, IMAP_SERVER, SEARCH_STRING, NEW_MAILBOX)
-    for request in found_emails:
-        MESSAGE_SUBJECT = "Reminder: " + date.today().strftime("%Y-%m-%d")+ " " + request['Subject']
-        MESSAGE_CONTENT = request['Body']
+    for reminder in found_emails:
+        MESSAGE_SUBJECT = "Reminder: " + date.today().strftime("%Y-%m-%d")+ " " + reminder['Subject']
+        MESSAGE_CONTENT = reminder['Body']
+        SENDER = reminder['From']
+        DAYOFWEEK = None
+        for day in day_hashtags:
+            if day in MESSAGE_CONTENT:
+                DAYOFWEEK = re.sub(r'#(\S+)', r'\1', day)
+
+        if DAYOFWEEK == None:
+            DAYOFWEEK = datetime.date.today().strftime("%A")
+
+
         # add reminder subject/content to JSON for correct day
-        # send_mass_email(MESSAGE_SUBJECT, MESSAGE_CONTENT, USERNAME, PASSWORD, DIRECTORY)
+        json_file = DAYOFWEEK.lower() + "_reminders.json"
+        with open(json_file, 'r') as file:
+            data = json.load(file)
+
+        new_reminder = {
+            "reminder_title": MESSAGE_SUBJECT,
+            "details":{
+                "subject": MESSAGE_SUBJECT,
+                "content": MESSAGE_CONTENT
+            }
+        }
+
+        data["reminders"].append(new_reminder)
+        with open(json_file, 'w') as file:
+            json.dump(data, file, indent=4) 
+        
+        
         
 # check_for_weekly_reminders()
 
-with open(r'E:\prayer-partners\friday_reminders.json', 'r') as file:
-    data = json.load(file)
-new_entry = {
-    "reminder_title": "example2",
-    "details":{
-        "subject":"test subject",
-        "content":"make up some content!"
-    }
-}
-data["reminders"].append(new_entry)
-with open(r'E:\prayer-partners\friday_reminders.json', 'w') as file:
-    json.dump(data, file, indent=4) 
+
