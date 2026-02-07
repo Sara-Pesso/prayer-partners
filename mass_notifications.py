@@ -10,7 +10,7 @@ from email.message import EmailMessage
 from email_distro import *
 from imap_tools import MailBox
 
-def search_email_for_prayer_requests(username, password, imap_server, search_string):
+def search_email_for_prayer_requests(username, password, imap_server, search_string, new_mailbox):
     uids = []
     try:
         # Connect to the IMAP server
@@ -70,7 +70,7 @@ def search_email_for_prayer_requests(username, password, imap_server, search_str
         mail.logout()
 
         # Move email to folder, out of inbox
-        remove_prayer_request(username, password, imap_server, uids)
+        remove_prayer_request(username, password, imap_server, uids, new_mailbox)
 
         return emails_with_string
 
@@ -78,31 +78,12 @@ def search_email_for_prayer_requests(username, password, imap_server, search_str
         print(f"An error occurred: {e}")
         return []
 
-def remove_prayer_request(username, password, imap_server, uids):
+def remove_prayer_request(username, password, imap_server, uids, new_mailbox):
     with MailBox(imap_server).login(username, password) as mailbox:
         for uid in uids:
             # MOVE all messages from current folder to folder2, *in bulk (implicit creation of uid list)
-            mailbox.move(uid, 'Prayer Requests')
+            mailbox.move(uid, new_mailbox)
 
             # DELETE all messages from current folder, *in bulk (explicit creation of uid list)
             mailbox.delete(uid)
-    return
-
-def check_for_prayer_requests():
-    # Email account details
-    USERNAME = "pessognellisa20@gmail.com"
-    PASSWORD = "axyf rity yzjb hcdo" # Use an App Password
-    IMAP_SERVER = "imap.gmail.com"
-    DIRECTORY = "E:\prayer-partners\directory.xlsx"
-
-    # Run the search
-    # The string to search for and the time to search for 
-    SEARCH_STRING = "#prayer-request"
-
-    found_emails = search_email_for_prayer_requests(USERNAME, PASSWORD, IMAP_SERVER, SEARCH_STRING)
-    for request in found_emails:
-        MESSAGE_SUBJECT = "Prayer Request: " + date.today().strftime("%Y-%m-%d")+ " " + request['Subject']
-        MESSAGE_CONTENT = request['Body']
-        send_mass_email(MESSAGE_SUBJECT, MESSAGE_CONTENT, USERNAME, PASSWORD, DIRECTORY)
-
-check_for_prayer_requests()
+    return []
