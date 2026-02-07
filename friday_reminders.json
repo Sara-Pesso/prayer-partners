@@ -1,0 +1,18 @@
+{
+    "reminders": [
+        {
+            "reminder_title": "Example",
+            "details": {
+                "subject": "subject",
+                "content": "content"
+            }
+        },
+        {
+            "reminder_title": "example2",
+            "details": {
+                "subject": "test subject",
+                "content": "make up some content!"
+            }
+        }
+    ]
+}
