@@ -11,3 +11,4 @@ PrayerRequestCheck
 CheckEmailForNewReminders
 CheckEmailForNewReminders
 CheckEmailForNewReminders
+SendWeeklyReminders
