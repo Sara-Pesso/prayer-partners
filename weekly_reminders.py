@@ -28,7 +28,7 @@ def check_for_weekly_reminders():
 
     found_emails = search_email_for_prayer_requests(USERNAME, PASSWORD, IMAP_SERVER, SEARCH_STRING, NEW_MAILBOX)
     for reminder in found_emails:
-        MESSAGE_SUBJECT = "Reminder: " + date.today().strftime("%Y-%m-%d")+ " " + reminder['Subject']
+        MESSAGE_SUBJECT = "Reminder: " + " " + reminder['Subject']
         MESSAGE_CONTENT = reminder['Body']
         SENDER = reminder['From']
         DAYOFWEEK = None
