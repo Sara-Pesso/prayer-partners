@@ -1,15 +1,18 @@
 from mass_notifications import *
 import json
 import re
+import tomllib
+from pathlib import Path
 import os
 os.chdir(r"E:\prayer-partners")
 
 def check_for_weekly_reminders():
     # Email account details
-    USERNAME = "pessognellisa20@gmail.com"
-    PASSWORD = "axyf rity yzjb hcdo" # Use an App Password
+    with Path('config.toml').open("rb") as f:
+        config_info = tomllib.load(f)
+    USERNAME = config_info['email']['username']
+    PASSWORD = config_info['email']['password']
     IMAP_SERVER = "imap.gmail.com"
-    DIRECTORY = "E:\prayer-partners\directory.xlsx"
 
     # Run the search
     # The string to search for and the time to search for 

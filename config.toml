@@ -1,3 +1,9 @@
+[directory]
+dir = "directory.xlsx"
+
 [email]
 username = "pessognellisa20@gmail.com"
 password = "axyf rity yzjb hcdo"
+
+[authorized-user]
+username = "pessognellisa20@gmail.com"

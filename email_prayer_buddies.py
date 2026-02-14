@@ -4,13 +4,19 @@ import smtplib
 import ssl
 from email.message import EmailMessage
 from datetime import date
-import sys
+import tomllib
+from pathlib import Path
+import os
+os.chdir(r"E:\prayer-partners")
 
-# Define email sender and receiver
-sender_email = "pessognellisa20@gmail.com"
-password = "axyf rity yzjb hcdo" # Use an App Password
+def weekly_prayer_buddies():
+    # Define email sender and receiver
+    with Path('config.toml').open("rb") as f:
+        config_info = tomllib.load(f)
+    sender_email = config_info['email']['username']
+    password = config_info['email']['password']
+    file = config_info['directory']['dir']
 
-def weekly_prayer_buddies(file):
     random_pairs, names, name_to_email= random_prayer_partners(file)
     for i, pair in enumerate(random_pairs, 1):
         # Create the email message string
@@ -49,4 +55,4 @@ def weekly_prayer_buddies(file):
 #         file = sys.argv[1]
 #     weekly_prayer_buddies(file) #= "E:\prayer-partners\directory.xlsx"
 
-weekly_prayer_buddies("E:\prayer-partners\directory.xlsx")
+weekly_prayer_buddies()
