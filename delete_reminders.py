@@ -8,13 +8,15 @@ def display_reminders_for_day(weekday):
     with open(json_file, 'r') as file:
         reminder_data = json.load(file)
     reminders = reminder_data["reminders"]
+
+    reminder_titles = []
     for reminder in reminders:
         EMAIL_SUBJECT = reminder['details']['subject']
-        EMAIL_CONTENT = reminder['details']['content']
+        reminder_titles.append(EMAIL_SUBJECT)
 
-    return []
+    return reminder_titles
 
-display_reminders_for_day("FRIDAY")
+# display_reminders_for_day("FRIDAY")
 
 def delete_reminder_from_json(reminder_title, weekday):
     json_file = os.path.join("weekly_reminder_json", weekday.lower() +"_reminders.json") 
@@ -31,6 +33,6 @@ def delete_reminder_from_json(reminder_title, weekday):
 
     return []
 
-delete_reminder_from_json("Reminder: 2026-02-13 quick test of the weekly reminder search", "FRIDAY")
+# delete_reminder_from_json("Reminder: 2026-02-13 quick test of the weekly reminder search", "FRIDAY")
 
 # display_reminders_for_day("FRIDAY")
