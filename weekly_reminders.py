@@ -41,7 +41,8 @@ def check_for_weekly_reminders():
 
 
         # add reminder subject/content to JSON for correct day
-        json_file = DAYOFWEEK.lower() + "_reminders.json"
+        json_file = os.path.join("./weekly_reminder_json/",DAYOFWEEK.lower() + "_reminders.json")
+        print(json_file)
         with open(json_file, 'r') as file:
             data = json.load(file)
 
@@ -59,6 +60,6 @@ def check_for_weekly_reminders():
         
         
         
-# check_for_weekly_reminders()
+check_for_weekly_reminders()
 
 

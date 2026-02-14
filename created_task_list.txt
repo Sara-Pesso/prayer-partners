@@ -4,3 +4,10 @@ PrayerRequestCheck
 PrayerRequestCheck
 PrayerRequestCheck
 PrayerRequestCheck
+PrayerBuddyEmailer
+PrayerBuddyEmailer
+PrayerRequestCheck
+PrayerRequestCheck
+CheckEmailForNewReminders
+CheckEmailForNewReminders
+CheckEmailForNewReminders
