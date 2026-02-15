@@ -2,6 +2,7 @@ import tkinter as tk
 import tomllib
 import toml
 from pathlib import Path
+import subprocess
 import os
 os.chdir(r"E:\prayer-partners")
 
@@ -19,12 +20,29 @@ class App:
         DIR = config_info['directory']['dir']
         AUTH = config_info['authorized-user']['username']
 
+        ## Update config toml functions
         self.config_toml_entry_box("Email Username:", USERNAME,row=0)
         self.config_toml_entry_box("Email App Password:", PASSWORD,row=1)
         self.config_toml_entry_box("Authorized User:", AUTH,row=2)
         self.config_toml_entry_box("Email Distribution Directory:", DIR,row=3)
-        self.button = tk.Button(root, text="Update", command=self.update_toml_with_new_value)
-        self.button.grid(row=4,column=1,pady=5)
+        self.update_button = tk.Button(root, text="Update", command=self.update_toml_with_new_value)
+        self.update_button.grid(row=4,column=1,pady=5)
+
+        ## force prayer buddy naem drawing & email
+        self.prayer_buddy_btn = tk.Button(root, text="Redraw Weekly Prayer Buddies", command=self.force_prayer_buddies)
+        self.prayer_buddy_btn.grid(row=5,column=1,pady=5)
+
+        ## force sending out today's weekday daily reminders
+        self.send_weeklies_btn = tk.Button(root, text = "Send Today's Reminders", command=self.force_send_reminders)
+        self.send_weeklies_btn.grid(row=6,column=1,pady=5)
+
+    def force_send_reminders(self):
+        subprocess.Popen(['E:\prayer-partners\dist\schedule_weekly_reminder_sender.exe', "E:\prayer-partners\dist\email_weekly_reminders.exe", "E:\prayer-partners\directory.py"])
+        print("Send weekly reminders complete")
+
+    def force_prayer_buddies(self):
+        subprocess.Popen(['E:\prayer-partners\dist\schedule_prayer_buddies.exe', "E:\prayer-partners\dist\email_prayer_buddies.exe", "E:\prayer-partners\directory.xlsx"])
+        print("Prayer buddy redraw complete")
         
     def config_toml_entry_box(self, toml_entry, CONFIG_ENTRY, row):
         self.label = tk.Label(root, text=toml_entry)

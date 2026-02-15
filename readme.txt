@@ -36,4 +36,4 @@ Send out weekly reminders, daily depending on the day
 
 pyinstaller --onefile -w 'E:\prayer-partners\email_weekly_reminders.py'
 pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_sender.py'
-.\dist\schedule_weekly_reminder_sender.exe 'E:\prayer-partners\dist\email_weekly_reminders.exe' 'E:\prayer-partners\directory.py'
+.\dist\schedule_weekly_reminder_sender.exe "E:\prayer-partners\dist\email_weekly_reminders.exe" "E:\prayer-partners\directory.py"

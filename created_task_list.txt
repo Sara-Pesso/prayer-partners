@@ -12,3 +12,5 @@ CheckEmailForNewReminders
 CheckEmailForNewReminders
 CheckEmailForNewReminders
 SendWeeklyReminders
+PrayerBuddyEmailer
+PrayerBuddyEmailer
