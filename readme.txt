@@ -30,12 +30,4 @@ pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_sender.py'
 .\dist\schedule_weekly_reminder_sender.exe "E:\prayer-partners\dist\email_weekly_reminders.exe" "E:\prayer-partners\directory.py"
 
 To build locally run:
-pyinstaller --onefile -w 'E:\prayer-partners\email_prayer_buddies.py';
-pyinstaller --onefile -w 'E:\prayer-partners\schedule_prayer_buddies.py';
-pyinstaller --onefile -w 'E:\prayer-partners\prayer_requester.py';
-pyinstaller --onefile -w 'E:\prayer-partners\schedule_prayer_request_check.py';
-pyinstaller --onefile -w 'E:\prayer-partners\weekly_reminders.py';
-pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_search.py';
-pyinstaller --onefile -w 'E:\prayer-partners\email_weekly_reminders.py';
-pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_sender.py';
-pyinstaller --onefile -w 'E:\prayer-partners\gui.py'
+pyinstaller --onefile -w 'E:\prayer-partners\email_prayer_buddies.py'; pyinstaller --onefile -w 'E:\prayer-partners\schedule_prayer_buddies.py'; pyinstaller --onefile -w 'E:\prayer-partners\prayer_requester.py'; pyinstaller --onefile -w 'E:\prayer-partners\schedule_prayer_request_check.py'; pyinstaller --onefile -w 'E:\prayer-partners\weekly_reminders.py';pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_search.py';pyinstaller --onefile -w 'E:\prayer-partners\email_weekly_reminders.py'; pyinstaller --onefile -w 'E:\prayer-partners\gui.py' 
