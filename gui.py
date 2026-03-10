@@ -48,6 +48,12 @@ class App:
         print("Check for prayer requests complete")
 
     def force_send_reminders(self):
+        # Search the gmail inbox for new weekly reminders and then set up a reoccuring action to check automatically
+        subprocess.Popen([Path(APP_DIR,"weekly_reminders.exe")])
+        subprocess.Popen([Path(APP_DIR,'schedule_weekly_reminder_search.exe'), Path(APP_DIR,"weekly_reminders.exe"), DIR])
+        print("Send weekly reminders complete")
+
+        # Actually send today's reminder rn, 
         subprocess.Popen([Path(APP_DIR,"email_weekly_reminders.exe")])
         subprocess.Popen([Path(APP_DIR,'schedule_weekly_reminder_sender.exe'), Path(APP_DIR,"email_weekly_reminders.exe"), DIR])
         print("Send weekly reminders complete")

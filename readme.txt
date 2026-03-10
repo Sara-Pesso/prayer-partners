@@ -13,15 +13,6 @@ pyinstaller --onefile -w 'E:\prayer-partners\prayer_requester.py'
 pyinstaller --onefile -w 'E:\prayer-partners\schedule_prayer_request_check.py'
 .\dist\schedule_prayer_request_check.exe "E:\prayer-partners\dist\prayer_requester.exe" "E:\prayer-partners\directory.xlsx"
 
-### DEPRECATED!
-Creating weekly reminders:
-
-pyinstaller --onefile -w 'E:\prayer-partners\weekly_reminders.py'#verified 2/13/2026 2256
-pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminders.py'
-.\dist\schedule_weekly_reminders.exe "E:\prayer-partners\dist\weekly_reminders.exe" "E:\prayer-partners\directory.xlsx" "CustomWeeklyReminder" "Friday" "reminder email subject" "reminder email content"
-
-
-### NEW!!!
 
 Creating/scheduling a task to regularly (hourly) look for new weekly reminders the authorized user sent to the email inbox. 
 - Regularly (hourly) searches for #weekly-reminder
@@ -37,3 +28,14 @@ Send out weekly reminders, daily depending on the day
 pyinstaller --onefile -w 'E:\prayer-partners\email_weekly_reminders.py'
 pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_sender.py'
 .\dist\schedule_weekly_reminder_sender.exe "E:\prayer-partners\dist\email_weekly_reminders.exe" "E:\prayer-partners\directory.py"
+
+To build locally run:
+pyinstaller --onefile -w 'E:\prayer-partners\email_prayer_buddies.py';
+pyinstaller --onefile -w 'E:\prayer-partners\schedule_prayer_buddies.py';
+pyinstaller --onefile -w 'E:\prayer-partners\prayer_requester.py';
+pyinstaller --onefile -w 'E:\prayer-partners\schedule_prayer_request_check.py';
+pyinstaller --onefile -w 'E:\prayer-partners\weekly_reminders.py';
+pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_search.py';
+pyinstaller --onefile -w 'E:\prayer-partners\email_weekly_reminders.py';
+pyinstaller --onefile -w 'E:\prayer-partners\schedule_weekly_reminder_sender.py';
+pyinstaller --onefile -w 'E:\prayer-partners\gui.py'
