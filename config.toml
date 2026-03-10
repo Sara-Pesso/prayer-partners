@@ -1,9 +1,12 @@
 [directory]
-dir = "directory.xlsx"
+dir = "E:/prayer-partners/directory.xlsx"
 
 [email]
-username = "nh2.jmu@gmail.com"
-password = "jodm hxfy vscf kgpx"
+username = "pessognellisa20@gmail.com"
+password = "jlnd hxuq wvkz wxpl"
 
 [authorized-user]
-username = "nh2.jmu@gmail.com"
+username = "pessognellisa20@gmail.com"
+
+[paths]
+dist = "E:/prayer-partners/dist"

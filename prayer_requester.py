@@ -2,7 +2,7 @@ from mass_notifications import *
 import tomllib
 from pathlib import Path
 import os
-os.chdir(r"E:\prayer-partners")
+os.chdir(os.getcwd())
 
 def check_for_prayer_requests():
     # Email account details

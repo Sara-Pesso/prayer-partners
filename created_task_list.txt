@@ -14,3 +14,17 @@ CheckEmailForNewReminders
 SendWeeklyReminders
 PrayerBuddyEmailer
 PrayerBuddyEmailer
+SendWeeklyReminders
+SendWeeklyReminders
+PrayerRequestCheck
+PrayerBuddyEmailer
+PrayerBuddyEmailer
+PrayerBuddyEmailer
+SendWeeklyReminders
+PrayerBuddyEmailer
+SendWeeklyReminders
+SendWeeklyReminders
+PrayerRequestCheck
+PrayerRequestCheck
+PrayerRequestCheck
+PrayerBuddyEmailer

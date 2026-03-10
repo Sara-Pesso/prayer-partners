@@ -1,1 +1,25 @@
-
+{
+    "reminders": [
+        {
+            "reminder_title": "Example",
+            "details": {
+                "subject": "subject",
+                "content": "content"
+            }
+        },
+        {
+            "reminder_title": "example2",
+            "details": {
+                "subject": "test subject",
+                "content": "make up some content!"
+            }
+        },
+        {
+            "reminder_title": "Reminder: 2026-02-13 trying this again...",
+            "details": {
+                "subject": "Reminder: 2026-02-13 trying this again...",
+                "content": "lol\r\nv/r\r\nSara\r\n\r\n#weekly-reminder\r\n#Friday\r\n"
+            }
+        }
+    ]
+}

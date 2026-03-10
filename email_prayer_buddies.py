@@ -7,7 +7,7 @@ from datetime import date
 import tomllib
 from pathlib import Path
 import os
-os.chdir(r"E:\prayer-partners")
+os.chdir(os.getcwd())
 
 def weekly_prayer_buddies():
     # Define email sender and receiver

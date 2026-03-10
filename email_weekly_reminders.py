@@ -4,7 +4,7 @@ import json
 import tomllib
 from pathlib import Path
 import os
-os.chdir(r"E:\prayer-partners")
+os.chdir(os.getcwd())
 
 def send_weekly_reminders_each_day():
     # Email account details

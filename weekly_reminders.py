@@ -4,7 +4,7 @@ import re
 import tomllib
 from pathlib import Path
 import os
-os.chdir(r"E:\prayer-partners")
+os.chdir(os.getcwd())
 
 def check_for_weekly_reminders():
     # Email account details

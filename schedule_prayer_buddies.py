@@ -9,4 +9,3 @@ if __name__ == "__main__":
      
     create_scheduled_task(task_name, run_at, exe_path, arg_path, 'Prayer Buddy Random Emailer', 3, weekday="Sunday", interval_str=None)
 
-# C:/Users/Sara/AppData/Local/Programs/Python/Python311/python.exe e:/prayer-partners/wins_scheduler.py "E:\prayer-partners\dist\email_prayer_buddies.exe" "E:\prayer-partners\directory.xlsx"

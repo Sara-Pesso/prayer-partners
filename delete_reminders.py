@@ -1,6 +1,6 @@
 import json
 import os
-os.chdir(r"E:\prayer-partners")
+os.chdir(os.getcwd())
 
 def display_reminders_for_day(weekday):
     json_file = os.path.join("weekly_reminder_json", weekday.lower() +"_reminders.json") 
