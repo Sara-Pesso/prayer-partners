@@ -1,0 +1,12 @@
+[directory]
+dir = "E:/prayer-partners/Prayer Buddy App/directory.xlsx"
+
+[email]
+username = "pessognellisa20@gmail.com"
+password = "jlnd hxuq wvkz wxpl"
+
+[authorized-user]
+username = "pessognellisa20@gmail.com"
+
+[paths]
+dist = "E:/prayer-partners/Prayer Buddy App/dist"

@@ -7,11 +7,12 @@ from datetime import date
 import tomllib
 from pathlib import Path
 import os
+import sys
 os.chdir(os.getcwd())
 
-def weekly_prayer_buddies():
+def weekly_prayer_buddies(cf):
     # Define email sender and receiver
-    with Path('config.toml').open("rb") as f:
+    with Path(cf).open("rb") as f:
         config_info = tomllib.load(f)
     sender_email = config_info['email']['username']
     password = config_info['email']['password']
@@ -50,9 +51,9 @@ def weekly_prayer_buddies():
                 print(f"Error: {e}")
 
 
-# if __name__ == "__main__": 
-#     if len(sys.argv)>1:
-#         file = sys.argv[1]
-#     weekly_prayer_buddies(file) #= "E:\prayer-partners\directory.xlsx"
-
-weekly_prayer_buddies()
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        config_file = sys.argv[1]     
+        weekly_prayer_buddies(config_file)
+    else:
+        print("Require config.toml path.")

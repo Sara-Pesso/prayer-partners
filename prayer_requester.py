@@ -1,12 +1,11 @@
 from mass_notifications import *
 import tomllib
 from pathlib import Path
-import os
-os.chdir(os.getcwd())
+import sys
 
-def check_for_prayer_requests():
+def check_for_prayer_requests(config_file):
     # Email account details
-    with Path('config.toml').open("rb") as f:
+    with Path(config_file).open("rb") as f:
         config_info = tomllib.load(f)
     USERNAME = config_info['email']['username']
     PASSWORD = config_info['email']['password']
@@ -23,5 +22,10 @@ def check_for_prayer_requests():
         MESSAGE_SUBJECT = "Prayer Request: " + date.today().strftime("%Y-%m-%d")+ " " + request['Subject']
         MESSAGE_CONTENT = request['Body']
         send_mass_email(MESSAGE_SUBJECT, MESSAGE_CONTENT, USERNAME, PASSWORD, DIRECTORY)
-        
-check_for_prayer_requests()
+
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        config_file = sys.argv[1]     
+        check_for_prayer_requests(config_file)
+    else:
+        print("Require config.toml path.")

@@ -4,9 +4,10 @@ import toml
 from pathlib import Path
 import subprocess
 import os
+
 os.chdir(os.getcwd())
 # Grab current toml entries
-with Path('config.toml').open("rb") as f:
+with Path('./dist/config.toml').open("rb") as f:
     config_info = tomllib.load(f)
 USERNAME = config_info['email']['username']
 PASSWORD = config_info['email']['password']
@@ -44,23 +45,23 @@ class App:
     #TODO change all the paths to be from the toml info, not hard coded!!! # Path(APP_DIR,"schedule_prayer_request_check.exe")
 
     def force_check_prayer_reqs(self):
-        subprocess.Popen([Path(APP_DIR,"schedule_prayer_request_check.exe"), Path(APP_DIR,"prayer_requester.exe"), DIR])
+        subprocess.Popen([Path(APP_DIR,"schedule_prayer_request_check.exe"), Path(APP_DIR,"prayer_requester.exe"), Path(APP_DIR, "config.toml")])
         print("Check for prayer requests complete")
 
     def force_send_reminders(self):
         # Search the gmail inbox for new weekly reminders and then set up a reoccuring action to check automatically
-        subprocess.Popen([Path(APP_DIR,"weekly_reminders.exe")])
-        subprocess.Popen([Path(APP_DIR,'schedule_weekly_reminder_search.exe'), Path(APP_DIR,"weekly_reminders.exe"), DIR])
-        print("Send weekly reminders complete")
+        subprocess.Popen([Path(APP_DIR,"weekly_reminders.exe"), Path(APP_DIR, "config.toml")])
+        subprocess.Popen([Path(APP_DIR,'schedule_weekly_reminder_search.exe'), Path(APP_DIR,"weekly_reminders.exe"), Path(APP_DIR, "config.toml")])
+        print("Search for weekly reminders complete")
 
         # Actually send today's reminder rn, 
-        subprocess.Popen([Path(APP_DIR,"email_weekly_reminders.exe")])
-        subprocess.Popen([Path(APP_DIR,'schedule_weekly_reminder_sender.exe'), Path(APP_DIR,"email_weekly_reminders.exe"), DIR])
+        subprocess.Popen([Path(APP_DIR,"email_weekly_reminders.exe"), Path(APP_DIR, "config.toml")])
+        subprocess.Popen([Path(APP_DIR,'schedule_weekly_reminder_sender.exe'), Path(APP_DIR,"email_weekly_reminders.exe"), Path(APP_DIR, "config.toml")])
         print("Send weekly reminders complete")
 
     def force_prayer_buddies(self):
-        subprocess.Popen([Path(APP_DIR,"email_prayer_buddies.exe")])
-        subprocess.Popen([Path(APP_DIR,'schedule_prayer_buddies.exe'), Path(APP_DIR,"email_prayer_buddies.exe"), DIR])
+        subprocess.Popen([Path(APP_DIR,"email_prayer_buddies.exe"), Path(APP_DIR, 'config.toml')])
+        subprocess.Popen([Path(APP_DIR,'schedule_prayer_buddies.exe'), Path(APP_DIR,"email_prayer_buddies.exe"),  Path(APP_DIR, 'config.toml')])
         print("Prayer buddy redraw complete")
         
     def config_toml_entry_box(self, toml_entry, CONFIG_ENTRY, row):
@@ -75,15 +76,17 @@ class App:
 
 
     def update_toml_with_new_value(self):
-        with open('config.toml','r') as f:
+        with open('./dist/config.toml','r') as f:
             config_data = toml.load(f)
 
         config_data['email']['username'] = self.variables["Email Username:"].get()
         config_data['email']['password'] = self.variables["Email App Password:"].get()
         config_data['directory']['dir'] = self.variables["Email Distribution Directory:"].get()
         config_data['authorized-user']['username'] = self.variables["Authorized User:"].get()
+        config_data['paths']['dist'] = self.variables["Application Directory:"].get()
+        print(config_data)
 
-        with open('config.toml','w') as f:
+        with open('./dist/config.toml','w') as f:
             toml.dump(config_data,f)
 
 if __name__ == "__main__":

@@ -3,12 +3,13 @@ import json
 import re
 import tomllib
 from pathlib import Path
+import sys
 import os
 os.chdir(os.getcwd())
 
-def check_for_weekly_reminders():
+def check_for_weekly_reminders(cf):
     # Email account details
-    with Path('config.toml').open("rb") as f:
+    with Path(cf).open("rb") as f:
         config_info = tomllib.load(f)
     USERNAME = config_info['email']['username']
     PASSWORD = config_info['email']['password']
@@ -44,7 +45,8 @@ def check_for_weekly_reminders():
 
 
         # add reminder subject/content to JSON for correct day
-        json_file = os.path.join("./weekly_reminder_json/",DAYOFWEEK.lower() + "_reminders.json")
+        json_dir = cf.replace("config.toml","") + "weekly_reminder_json/"
+        json_file = os.path.join(json_dir,DAYOFWEEK.lower() + "_reminders.json")
         print(json_file)
         with open(json_file, 'r') as file:
             data = json.load(file)
@@ -61,8 +63,9 @@ def check_for_weekly_reminders():
         with open(json_file, 'w') as file:
             json.dump(data, file, indent=4) 
         
-        
-        
-check_for_weekly_reminders()
-
-
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        config_file = sys.argv[1]     
+        check_for_weekly_reminders(config_file)
+    else:
+        print("Require config.toml path.")        

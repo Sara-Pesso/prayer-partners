@@ -3,12 +3,13 @@ import datetime
 import json
 import tomllib
 from pathlib import Path
+import sys
 import os
 os.chdir(os.getcwd())
 
-def send_weekly_reminders_each_day():
+def send_weekly_reminders_each_day(cf):
     # Email account details
-    with Path('config.toml').open("rb") as f:
+    with Path(cf).open("rb") as f:
         config_info = tomllib.load(f)
     USERNAME = config_info['email']['username']
     PASSWORD = config_info['email']['password']
@@ -17,7 +18,8 @@ def send_weekly_reminders_each_day():
 
     # GEt today's date
     today = datetime.datetime.now().strftime("%A")
-    json_file = os.path.join("weekly_reminder_json", today.lower() +"_reminders.json") 
+    json_dir = cf.replace("config.toml","")
+    json_file = os.path.join(json_dir, "weekly_reminder_json", today.lower() +"_reminders.json") 
     print(json_file)
 
     # E:\prayer-partners\weekly_reminder_json
@@ -33,4 +35,10 @@ def send_weekly_reminders_each_day():
         send_mass_email(EMAIL_SUBJECT, EMAIL_CONTENT, USERNAME, PASSWORD, DIRECTORY)
     return []
 
-send_weekly_reminders_each_day()
+
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        config_file = sys.argv[1]     
+        send_weekly_reminders_each_day(config_file)
+    else:
+        print("Require config.toml path.")
