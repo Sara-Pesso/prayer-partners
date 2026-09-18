@@ -1,5 +1,5 @@
 [directory]
-dir = "E:/prayer-partners/Prayer Buddy App/directory.xlsx"
+dir = "E:/prayer-partners/PrayerBuddyApp/directory.xlsx"
 
 [email]
 username = "pessognellisa20@gmail.com"
@@ -9,4 +9,4 @@ password = "jlnd hxuq wvkz wxpl"
 username = "pessognellisa20@gmail.com"
 
 [paths]
-dist = "E:/prayer-partners/Prayer Buddy App/dist"
+dist = "E:/prayer-partners/PrayerBuddyApp/dist"

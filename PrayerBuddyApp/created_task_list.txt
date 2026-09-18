@@ -92,3 +92,6 @@ PrayerBuddyEmailer
 CheckEmailForNewReminders
 SendWeeklyReminders
 PrayerRequestCheck
+PrayerRequestCheck
+PrayerRequestCheck
+PrayerRequestCheck
